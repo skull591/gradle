@@ -1,0 +1,107 @@
+//task
+task groovy << {}
+
+//java class
+class Test{
+	public static void sayHello(){
+		System.out.println("Hello java！！");
+	}
+}
+Test test = new Test()
+test.sayHello()
+
+//def function
+def doubleIt(n){
+	println "${n+n}"//the last line will be returned
+	n+n
+}
+def pri(x, y){
+	println "the first one is ${x}, and the second one is ${y}"
+}
+def foo = 6.5
+println "foo has value: $foo"
+println "${6+5}"
+println "foo is of ${foo.class}"
+println "${foo}:${doubleIt(foo)}"
+foo = "a string"
+println "foo is of ${foo.class} now"
+println doubleIt(foo)
+
+//function with no ()
+//can println, it's getting confused
+//println doubleIt 500
+doubleIt 500
+pri doubleIt(500), 120
+
+//closure
+def myFucn = {
+	println "It's a closure!"
+}
+def t = myFucn
+t()
+def add = {x,y ->
+	println "an extra line for ${x} and ${y}!"
+	x+y
+}
+def invoke(func, args){
+	func(func(args,args),func(args,args))
+}
+foo = 500
+println "The answer = ${invoke(add,foo)}"
+
+//list
+def myList = ["gradle", "stupid", "monkey"]
+def printItem = {item -> println "List item: $item"}
+myList.each(printItem)
+
+myList.each{println "what the fuck is this: $it"}
+
+//class
+class GroovyShit{
+	String greeting = "what's up!"
+	def printGreet(){
+		println greeting
+	}
+}
+GroovyShit groovyShit = new GroovyShit()
+groovyShit.printGreet()
+
+//delegate
+def delegateShit = {
+	greeting = "now it's shit up by delegate!"
+	printGreet()
+}
+delegateShit.delegate = groovyShit
+delegateShit()
+
+//collect
+def list = ["my","fucking","list"]
+def doubleLsit = list.collect{it+it}
+doubleLsit.each{println "doubled: $it"}
+
+
+//tasks
+//only show with description and group, other tasks show in 
+//gradle tasks --all
+project.task("myTask1")
+myTask1.description = "lalala"
+myTask1.group = "fuck you"
+task("myTask2")
+task "myTask3"
+task mytask4
+mytask4.description = "This is a fucking description"
+mytask4.group = "fuck you"
+mytask4.doLast{
+	println "last~~"
+}
+mytask4.doFirst{
+	println "first~~"
+}
+task mytask5 {
+	description "This is also a description"
+	//if assgin collection, must use =
+	group = ["tes","la"]
+	doLast{
+		println "lalala"
+	}
+}
